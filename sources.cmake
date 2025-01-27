@@ -1,0 +1,37 @@
+
+set(GPUTKLIB "gputk")
+
+set(SRC_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/src)
+
+include_directories(${SRC_DIRECTORY})
+include_directories(${CMAKE_CURRENT_LIST_DIR}/third_party)
+
+if (UNIX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dollar-in-identifier-extension")
+endif ()
+
+file(GLOB THESE_CPP_FILES
+    ${SRC_DIRECTORY}/*.cpp
+)
+
+file(GLOB THESE_TEST_FILES
+    ${SRC_DIRECTORY}/*_test.cpp
+)
+
+list(REMOVE_ITEM THESE_CPP_FILES ${THESE_TEST_FILES})
+
+file(GLOB THESE_HEADER_FILES
+    ${SRC_DIRECTORY}/*.h
+)
+
+list(APPEND LIBGPUTK_HEADER_FILES
+    ${THESE_HEADER_FILES}
+)
+
+list(APPEND LIBGPUTK_SOURCE_FILES
+    ${THESE_CPP_FILES}
+)
+
+list(APPEND LIBGPUTK_TEST_FILES
+    ${THESE_TEST_FILES}
+)
