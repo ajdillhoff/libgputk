@@ -52,3 +52,10 @@ install(DIRECTORY src/
                  PATTERN "*.hpp"
                  PATTERN "*.cuh"
 )
+
+# Install the required third-party headers
+install(DIRECTORY third_party/nlohmann/
+    DESTINATION third_party/nlohmann
+    FILES_MATCHING PATTERN "*.h"
+                 PATTERN "*.hpp"
+)
