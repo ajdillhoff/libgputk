@@ -46,7 +46,7 @@ install(TARGETS gputk
     ARCHIVE DESTINATION lib
 )
 
-install(DIRECTORY include/
+install(DIRECTORY src/
     DESTINATION include
     FILES_MATCHING PATTERN "*.h"
                  PATTERN "*.hpp"
