@@ -50,7 +50,12 @@ install(DIRECTORY src/
     DESTINATION libgputk/include
     FILES_MATCHING PATTERN "*.h"
                  PATTERN "*.hpp"
-                 PATTERN "*.cuh"
+)
+
+install(DIRECTORY third_party/
+    DESTINATION libgputk/include
+    FILES_MATCHING PATTERN "*.h"
+                 PATTERN "*.hpp"
 )
 
 # Install the required third-party headers
