@@ -40,3 +40,15 @@ if (UNIX)
 endif (UNIX)
 set_target_properties(${GPUTKLIB_STATIC} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set_property(TARGET ${GPUTKLIB} PROPERTY CXX_STANDARD 11)
+
+install(TARGETS gputk
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+
+install(DIRECTORY include/
+    DESTINATION include
+    FILES_MATCHING PATTERN "*.h"
+                 PATTERN "*.hpp"
+                 PATTERN "*.cuh"
+)
