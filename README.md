@@ -28,9 +28,15 @@ The main features of the library are:
 
 ## Compilation
 To build the library files, use the following commands:
-```
+```bash
 cmake -B build .
-make -C build
+cmake --build build
+```
+
+If you want to install the library to a specific folder on your system, use the following commands. You can also omit the `CMAKE_INSTALL_PREFIX` flag to install the library to the default location on your system.
+```bash
+cmake -B build -DCMAKE_INSTALL_PREFIX=/path/to/install .
+cmake --build build --target install
 ```
 
 This will generate `libgputk.so` and `libgputk.a`. You will also need to include the header files in your project.
