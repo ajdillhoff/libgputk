@@ -42,12 +42,12 @@ set_target_properties(${GPUTKLIB_STATIC} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${C
 set_property(TARGET ${GPUTKLIB} PROPERTY CXX_STANDARD 11)
 
 install(TARGETS gputk
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION libgputk/lib
+    ARCHIVE DESTINATION libgputk/lib
 )
 
 install(DIRECTORY src/
-    DESTINATION include
+    DESTINATION libgputk/include
     FILES_MATCHING PATTERN "*.h"
                  PATTERN "*.hpp"
                  PATTERN "*.cuh"
@@ -55,7 +55,7 @@ install(DIRECTORY src/
 
 # Install the required third-party headers
 install(DIRECTORY third_party/nlohmann/
-    DESTINATION third_party/nlohmann
+    DESTINATION nlohmann
     FILES_MATCHING PATTERN "*.h"
                  PATTERN "*.hpp"
 )
