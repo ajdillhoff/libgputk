@@ -8,11 +8,9 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_MACOSX_RPATH TRUE)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-
 project(gputk)
 
 set(current_dir "${CMAKE_CURRENT_SOURCE_DIR}")
-
 
 include(${current_dir}/sources.cmake)
 include(CheckCXXCompilerFlag)
@@ -22,30 +20,35 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 if(COMPILER_SUPPORTS_CXX11)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 else()
-  message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+    message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
 set(GPUTKLIB_STATIC ${GPUTKLIB})
 set(GPUTKLIB_SHARED lib${GPUTKLIB})
 
-add_library(${GPUTKLIB_STATIC} STATIC ${LIBGPUTK_SOURCE_FILES} )
-add_library(${GPUTKLIB_SHARED} SHARED ${LIBGPUTK_SOURCE_FILES} )
+# Create static library
+add_library(${GPUTKLIB_STATIC} STATIC ${LIBGPUTK_SOURCE_FILES})
 set_property(TARGET ${GPUTKLIB_STATIC} PROPERTY CXX_STANDARD 11)
+set_target_properties(${GPUTKLIB_STATIC} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+# Create shared library
+add_library(${GPUTKLIB_SHARED} SHARED ${LIBGPUTK_SOURCE_FILES})
 set_property(TARGET ${GPUTKLIB_SHARED} PROPERTY CXX_STANDARD 11)
 if (UNIX)
-  set_target_properties(${GPUTKLIB_SHARED} PROPERTIES OUTPUT_NAME ${GPUTKLIB_STATIC})
-  set_target_properties(${GPUTKLIB_SHARED} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+    set_target_properties(${GPUTKLIB_SHARED} PROPERTIES OUTPUT_NAME ${GPUTKLIB_STATIC})
+    set_target_properties(${GPUTKLIB_SHARED} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 endif (UNIX)
-set_target_properties(${GPUTKLIB_STATIC} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set_property(TARGET ${GPUTKLIB} PROPERTY CXX_STANDARD 11)
 
-install(TARGETS gputk
+# Install both static and shared libraries
+install(TARGETS ${GPUTKLIB_STATIC} ${GPUTKLIB_SHARED}
+    RUNTIME DESTINATION libgputk/bin
     LIBRARY DESTINATION libgputk/lib
     ARCHIVE DESTINATION libgputk/lib
 )
 
+# Install headers
 install(DIRECTORY src/
     DESTINATION libgputk/include
     FILES_MATCHING PATTERN "*.h"
